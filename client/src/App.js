@@ -1,58 +1,33 @@
 import React from 'react';
-import { useState } from 'react';
-import Register from './pages/Register';
+import LoginForm from './components/LoginForm';
+import { NavLink } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { isAuthenticated } from './utils/auth';
 
 function App() {
-  const [input, setInput] = useState({
-    email: '',
-    password: ''
-  });
+  const [user, setUser] = useState('');
 
-  const handleInputChange = (e) => {
-    setInput({
-      ...input,
-      [e.target.name]: e.target.value
-    })
-  }
+  useEffect(() => {
+    const user_data = isAuthenticated()
+    if (user_data) setUser(user_data)
+  }, [user]);
 
-  const handleLogin = (e) => {
-    e.preventDefault()
-    const user_to_login = {
-      email: input.email,
-      password: input.password
-    }
-    fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user_to_login)
-    })
-  }
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    window.location.reload();
+  };
 
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <input
-          value={input.email}
-          onChange={handleInputChange}
-          name="email"
-          type="email"
-          placeholder="email">
-        </input>
-        <input
-          value={input.password}
-          onChange={handleInputChange}
-          name="password"
-          type="password"
-          placeholder="password">
-        </input>
-        <button>LOG IN</button>
-      </form>
-      < Register /> 
+      {user.username ? (
+        <div>
+          <p>welcome {user.username}</p>
+          <button onClick={handleLogOut}>LOG OUT</button>
+        </div>
+      ) : < LoginForm user={user} setUser={setUser} />}
+      <NavLink to="/register">CREATE ACCOUNT</NavLink>
     </div>
   );
-}
+};
 
 export default App;

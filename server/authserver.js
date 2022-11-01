@@ -28,12 +28,17 @@ app.post('/token', (req, res) => {
     })
 })
 
+// app.post('/token', (req, res) => {
+//     console.log(newAccessToken)
+// })
+
 // app.delete('/logout', (req, res) => {
 //     refreshTokens = refreshTokens.filter(token => token !== req.body.token);
 //     res.sendStatus(204);
 // })
 
 app.post('/register', async (req, res) => {
+    console.log(req.body)
     const user = req.body
     const refreshToken = generateRefreshToken(user);
     const new_user = await User.create(user);
@@ -70,11 +75,11 @@ app.post('/login', async (req, res) => {
 });
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15s'});
+    return jwt.sign({data: user}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h'});
 }
 
 function generateRefreshToken(user) {
-    return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+    return jwt.sign({data: user}, process.env.REFRESH_TOKEN_SECRET)
 }
 
 db.once('open', () => {
