@@ -1,0 +1,49 @@
+// LOGIN
+POST http://localhost:2222/login
+Content-Type: application/json
+
+{
+    "email": "j@yes.com",
+    "password": "password"
+}
+
+###
+
+// REGISTER
+POST http://localhost:2222/register
+Content-Type: application/json
+
+{
+    "username": "Connor",
+    "email": "connor@test.com",
+    "password": "password"
+}
+
+
+###
+// NEW ACCESS TOKEN
+POST http://localhost:2222/token
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlBBVUwiLCJpYXQiOjE2NjcyOTE1NTl9.kjkZoZ1eb2CFka-q4fzYWNk7-A8TJrcT3nTsbemdAqo"
+}
+
+###
+// YOUR USER AUTH CHECK
+GET http://localhost:1111/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNvbm5vciIsImVtYWlsIjoiY29ubm9yQHRlc3QuY29tIiwiaWF0IjoxNjY3MzM4NzY2LCJleHAiOjE2NjczMzg3ODF9.HeUhbTnePe5GKL2huMf2LI5phB8dJiGFOTEQ6H1BsdY
+
+
+###
+// ALL USERS
+GET http://localhost:1111/users
+
+// LOGOUT
+###
+DELETE http://localhost:2222/logout
+Content-Type: application.application/json
+
+{
+    "token": ""
+}
