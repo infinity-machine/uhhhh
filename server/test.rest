@@ -3,7 +3,7 @@ POST http://localhost:2222/login
 Content-Type: application/json
 
 {
-    "email": "j@yes.com",
+    "email": "connorr@test.com",
     "password": "password"
 }
 
@@ -31,13 +31,13 @@ Content-Type: application/json
 
 ###
 // YOUR USER AUTH CHECK
-GET http://localhost:1111/user
+GET http://localhost:2222/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkNvbm5vciIsImVtYWlsIjoiY29ubm9yQHRlc3QuY29tIiwiaWF0IjoxNjY3MzM4NzY2LCJleHAiOjE2NjczMzg3ODF9.HeUhbTnePe5GKL2huMf2LI5phB8dJiGFOTEQ6H1BsdY
 
 
 ###
 // ALL USERS
-GET http://localhost:1111/users
+GET http://localhost:2222/users
 
 // LOGOUT
 ###

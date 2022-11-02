@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { generateAccessToken } from '../utils/auth'
 
 const LoginForm = (props) => {
     const [input, setInput] = useState({
@@ -20,18 +21,11 @@ const LoginForm = (props) => {
             email: input.email,
             password: input.password
         }
-        const response = await fetch('/login', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user_to_login)
-        })
-        const token = await response.json();
+        const token = await generateAccessToken(user_to_login)
         localStorage.setItem('token', token);
-        props.setUser(user_to_login);
-    }
+        window.location.reload();
+    };
+
     return (
         <div>
             <form onSubmit={handleLogin}>

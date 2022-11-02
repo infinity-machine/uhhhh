@@ -1,5 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
+import { registerUser } from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [input, setInput] = useState({
@@ -7,6 +9,7 @@ const Register = () => {
         email: '',
         password: ''
     });
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         setInput({
@@ -15,21 +18,16 @@ const Register = () => {
         })
     }
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
         e.preventDefault()
         const user_to_register = {
             username: input.username,
             email: input.email,
             password: input.password
         }
-        fetch('/register', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user_to_register)
-        })
+        const token = await registerUser(user_to_register);
+        localStorage.setItem('token', token);
+        navigate('/')
     }
     return (
         <div>
@@ -55,7 +53,7 @@ const Register = () => {
                     type="password"
                     placeholder="password">
                 </input>
-                <button>LOG IN</button>
+                <button>REGISTER</button>
             </form>
         </div>
     )
