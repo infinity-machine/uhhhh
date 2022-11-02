@@ -31,8 +31,10 @@ app.use(express.static(path.join(__dirname, '../client/build')));
 // REGISTER
 app.post('/register', async (req, res) => {
   const user = req.body
+  if (!user) return res.send(400);
   const refreshToken = generateRefreshToken(user);
   const new_user = await User.create(user);
+  if (!new_user) return res.send(400)
   const user_key = await Key.create({
     key: refreshToken,
     user_id: new_user._id
@@ -44,25 +46,28 @@ app.post('/register', async (req, res) => {
 // LOGIN
 app.post('/login', async (req, res) => {
   const { email, password } = req.body;
+
   if (!email || !password) {
-    throw new Error('PLEASE ENTER YOUR CREDENTIALS');
+    return res.send(400)
   };
 
   const user = await User.findOne({
     email: email
   });
 
-  if (!user) throw new Error('NO USER FOUND WITH THAT EMAIL');
+  if (!user) return res.sendStatus(401);
 
   const pass_is_valid = await user.validatePass(password, user.password);
+
   if (!pass_is_valid) {
-    throw new Error('INVALID PASSWORD');
+    return res.sendStatus(401);
   }
 
   const access_token = generateAccessToken({
     username: user.username,
     email: user.email
   });
+
   res.json(access_token);
 });
 

@@ -7,7 +7,6 @@ export function isAuthenticated() {
 
   const decoded = decode(token);
 
-
   if (decoded.exp > Date.now() / 1000) return decoded.data;
   console.log(decoded.data)
 
@@ -19,33 +18,22 @@ export function returnDecodedToken(token) {
   return decoded.data
 }
 
-
-
-// UNDER CONSTRUCTION
-
 export async function generateAccessToken(user) {
-
-  try {
-    const response = await fetch('/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(user)
-    });
-    if (response.ok) {
-      const token = await response.json();
-      return token
-    }
+  const response = await fetch('/login', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  });
+  if (response.status === 200) {
+    const token = await response.json();
+    return token
   }
-  catch(error) {
-    if(error) {
-      console.log(error)
-    }
+  if (response.status !== 200) {
+    throw new Error('CHECK YOUR CREDENTIALS')
   }
-
-
 }
 
 export async function registerUser(user) {
@@ -57,6 +45,12 @@ export async function registerUser(user) {
     },
     body: JSON.stringify(user)
   });
-  const access_token = await response.json();
-  return access_token;
+  if (response.status === 200) {
+    const access_token = await response.json();
+    return access_token;
+  }
+  if (response.status !== 200) {
+    throw new Error('ACCOUNT CREATION FAILED, CHECK CREDENTIALS')
+  }
+
 }

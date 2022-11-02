@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import { generateAccessToken } from '../utils/auth'
 
-const LoginForm = (props) => {
+const LoginForm = () => {
+    const [error, setError] = useState('')
     const [input, setInput] = useState({
         email: '',
         password: ''
@@ -21,13 +22,22 @@ const LoginForm = (props) => {
             email: input.email,
             password: input.password
         }
-        const token = await generateAccessToken(user_to_login)
-        localStorage.setItem('token', token);
-        window.location.reload();
+        if (!user_to_login.email && !user_to_login.password) {
+            return setError('ENTER EMAIL AND PASSWORD')
+        }
+        try {
+            const token = await generateAccessToken(user_to_login)
+            localStorage.setItem('token', token);
+            window.location.reload();
+        }
+        catch(err) {
+            setError(err.message);
+        }
     };
 
     return (
         <div>
+            {error ? <p>{error}</p> : <></>}
             <form onSubmit={handleLogin}>
                 <input
                     value={input.email}
