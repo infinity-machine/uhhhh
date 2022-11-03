@@ -45,7 +45,7 @@ export async function registerUser(user) {
     return access_token;
   }
   if (response.status !== 200) {
-    throw new Error('ACCOUNT CREATION FAILED, CHECK CREDENTIALS')
+    throw new Error('ACCOUNT CREATION FAILED')
   }
 
 }
