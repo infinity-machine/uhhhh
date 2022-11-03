@@ -25,7 +25,7 @@ api_router.get('/posts', authenticateToken, async(req, res) => {
 
 api_router.post('/posts', authenticateToken, async(req, res) => {
     const new_post = Post.create(req.body)
-    res.json('POST CREATED')
+    res.json(new_post);
 })
 
 module.exports = api_router;

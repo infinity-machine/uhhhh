@@ -3,11 +3,23 @@ import LoginForm from './components/LoginForm';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { isAuthenticated } from './utils/auth';
-import { savePost } from './utils/posts';
+import { savePost, fetchPosts } from './utils/posts';
 
 function App() {
   const [user, setUser] = useState('');
   const [postContent, setPostContent] = useState('')
+  const [postsData, setPostsData] = useState([]);
+
+  // const fetchAndRender = async() => {
+  //   fetchPosts()
+  //     .then(data => setPostsData(data))
+  //     .then(console.log(postsData))
+  // }
+
+  useEffect(() => {
+    fetchPosts()
+      .then(data => setPostsData(data))
+  }, [postsData])
 
   useEffect(() => {
     const user_data = isAuthenticated()
@@ -20,7 +32,7 @@ function App() {
 
   const handleSavePost = (e) => {
     e.preventDefault();
-    savePost(postContent)
+    savePost(postContent, user.username)
   }
 
   const handleLogOut = () => {
@@ -42,9 +54,14 @@ function App() {
                 type="textarea"></input>
               <button>POST</button>
             </form>
-            <div>
-              
-            </div>
+            {postsData ? postsData.map((data, index) => {
+              return (
+                <div key={index}>
+                  <p>{data.content}</p>
+                  <p>{data.author}</p>
+                </div>
+              )
+            }) : <></>}
           </div>
         </div>
       ) : (
