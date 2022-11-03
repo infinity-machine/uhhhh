@@ -32,7 +32,6 @@ export async function fetchAccessToken(user) {
 }
 
 export async function registerUser(user) {
-  console.log(user)
   const response = await fetch('/auth/register', {
     method: 'POST',
     headers: {
@@ -41,7 +40,6 @@ export async function registerUser(user) {
     },
     body: JSON.stringify(user)
   });
-  console.log(response)
   if (response.status === 200) {
     const access_token = await response.json();
     return access_token;
