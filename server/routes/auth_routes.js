@@ -13,7 +13,6 @@ auth_router.post('/register', async (req, res) => {
 // LOGIN
 auth_router.post('/login', async (req, res) => {
     const access_token = await loginUser(req.body);
-    console.log(access_token)
     if (!access_token) return res.sendStatus(400);
     res.json(access_token);
 });

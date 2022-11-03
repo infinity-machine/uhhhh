@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { generateAccessToken } from '../utils/auth'
+import { fetchAccessToken } from '../utils/auth'
 
 const LoginForm = () => {
     const [error, setError] = useState('')
@@ -26,7 +26,7 @@ const LoginForm = () => {
             return setError('ENTER EMAIL AND PASSWORD')
         }
         try {
-            const token = await generateAccessToken(user_to_login)
+            const token = await fetchAccessToken(user_to_login)
             localStorage.setItem('token', token);
             console.log(token)
             window.location.reload();

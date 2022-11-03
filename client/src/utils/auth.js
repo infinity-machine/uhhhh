@@ -2,14 +2,9 @@ import decode from 'jwt-decode';
 
 export function isAuthenticated() {
   const token = localStorage.getItem('token');
-
   if (!token) return false;
-
   const decoded = decode(token);
-
   if (decoded.exp > Date.now() / 1000) return decoded.data;
-  console.log(decoded.data)
-
   return false;
 }
 
@@ -18,7 +13,7 @@ export function returnDecodedToken(token) {
   return decoded.data
 }
 
-export async function generateAccessToken(user) {
+export async function fetchAccessToken(user) {
   const response = await fetch('/auth/login', {
     method: 'POST',
     headers: {

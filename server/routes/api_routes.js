@@ -1,16 +1,16 @@
 const api_router = require('express').Router();
-const jwt = require('jsonwebtoken');
-const { User } = require('../models');
+
+const { User, Post } = require('../models');
+const { authenticateToken } = require('../controllers');
 
 // GET ALL USERS
-api_router.get('/users', async (req, res) => {
+api_router.get('/users', authenticateToken, async (req, res) => {
     const users = await User.find()
     res.json(users)
 })
 
 // GET YOUR USER WITH AUTH
 api_router.get('/user', authenticateToken, async (req, res) => {
-    console.log(req.user.data)
     const user_data = await User.findOne({
         username: req.user.data.username,
         email: req.user.data.email
@@ -18,38 +18,14 @@ api_router.get('/user', authenticateToken, async (req, res) => {
     res.json(user_data)
 })
 
-// AUTHENTICATE TOKEN
-function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token == null) return res.sendStatus(401);
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403);
-        
-        // THIS LINE MAY NOT BE NECESSARY?
-        if (Date.now() >= (user.exp * 1000)) return res.sendStatus(403)
-        //
+api_router.get('/posts', authenticateToken, async(req, res) => {
+    const posts = await Post.find()
+    res.json(posts)
+})
 
-        req.user = user;
-        next();
-    })
-    
-}
-
-function isAuthenticated() {
-    const token = localStorage.getItem('token');
-    const refreshToken = localStorage.getItem('refreshToken');
-    try {
-      decode(token);
-      const { exp } = decode(refreshToken);
-      if (Date.now() >= exp * 1000) {
-        return false;
-      }
-    } catch (err) {
-      return false;
-    }
-    return true;
-  }
-
+api_router.post('/posts', authenticateToken, async(req, res) => {
+    const new_post = Post.create(req.body)
+    res.json('POST CREATED')
+})
 
 module.exports = api_router;
