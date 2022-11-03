@@ -19,7 +19,7 @@ export function returnDecodedToken(token) {
 }
 
 export async function generateAccessToken(user) {
-  const response = await fetch('/login', {
+  const response = await fetch('/auth/login', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
@@ -37,7 +37,7 @@ export async function generateAccessToken(user) {
 }
 
 export async function registerUser(user) {
-  const response = await fetch('/register', {
+  const response = await fetch('/auth/register', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',

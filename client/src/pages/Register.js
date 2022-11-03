@@ -29,9 +29,14 @@ const Register = () => {
         if (!user_to_register.username && !user_to_register.email && !user_to_register.password) {
             return setError('YOU MUST ENTER ALL REQUIRED FIELDS')
         }
-        const token = await registerUser(user_to_register);
-        localStorage.setItem('token', token);
-        navigate('/')
+        try {
+            const token = await registerUser(user_to_register);
+            localStorage.setItem('token', token);
+            navigate('/')
+        }
+        catch(err) {
+            setError(err.message)
+        }
     }
     return (
         <div>

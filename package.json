@@ -9,7 +9,7 @@
     "authserver": "cd ./server && nodemon authserver.js",
     "dev:client": "cd ./client && npm start",
     "start": "cd ./server && npm start",
-    "dev": "concurrently \"npm run dev:server\" \"npm run authserver\" \"npm run dev:client\"",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
     "seed:todos": "cd ./server/seeds && node todo.js",
     "install:client": "cd ./client && npm i",
     "install:server": "cd ./server && npm i",

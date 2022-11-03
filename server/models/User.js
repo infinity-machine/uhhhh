@@ -25,9 +25,9 @@ userSchema.pre('save', async function () {
     this.password = hashed_pass;
 });
 
-userSchema.methods.validatePass = async function (raw_pass) {
-    const cooked_pass = await bcrypt.compare(raw_pass, this.password);
-    return cooked_pass;
+userSchema.methods.validatePass = async function(pass_to_check) {
+    const pass_is_valid = await bcrypt.compare(pass_to_check, this.password);
+    return pass_is_valid;
 };
 
 const User = model('User', userSchema);

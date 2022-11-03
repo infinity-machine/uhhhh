@@ -21,11 +21,15 @@ function App() {
     <div>
       {user.username ? (
         <div>
-          <p>welcome {user.username}</p>
+          <p>Welcome {user.username}!</p>
           <button onClick={handleLogOut}>LOG OUT</button>
         </div>
-      ) : < LoginForm user={user} setUser={setUser} />}
-      <NavLink to="/register">CREATE ACCOUNT</NavLink>
+      ) : (
+        <div>
+          < LoginForm user={user} setUser={setUser} />
+          <NavLink to="/register">CREATE ACCOUNT</NavLink>
+        </div>
+      )}
     </div>
   );
 };
