@@ -10,12 +10,6 @@ function App() {
   const [postContent, setPostContent] = useState('')
   const [postsData, setPostsData] = useState([]);
 
-  // const fetchAndRender = async() => {
-  //   fetchPosts()
-  //     .then(data => setPostsData(data))
-  //     .then(console.log(postsData))
-  // }
-
   useEffect(() => {
     fetchPosts()
       .then(data => setPostsData(data))
@@ -33,6 +27,7 @@ function App() {
   const handleSavePost = (e) => {
     e.preventDefault();
     savePost(postContent, user.username)
+    setPostContent('')
   }
 
   const handleLogOut = () => {
@@ -54,9 +49,9 @@ function App() {
                 type="textarea"></input>
               <button>POST</button>
             </form>
-            {postsData ? postsData.map((data, index) => {
+            {postsData ? postsData.slice(0).reverse().map((data, index) => {
               return (
-                <div key={index}>
+                <div key={index} className="card">
                   <p>{data.content}</p>
                   <p>{data.author}</p>
                 </div>
