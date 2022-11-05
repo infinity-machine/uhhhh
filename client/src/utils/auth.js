@@ -47,5 +47,4 @@ export async function registerUser(user) {
   if (response.status !== 200) {
     throw new Error('ACCOUNT CREATION FAILED')
   }
-
 }

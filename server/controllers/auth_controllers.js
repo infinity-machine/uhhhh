@@ -13,9 +13,9 @@ function generateRefreshToken(user) {
 
 async function registerUser(user_to_register) {
     if (!user_to_register) return false;
-    const refresh_token = generateRefreshToken(user_to_register);
     const new_user_data = await User.create(user_to_register);
     if (!new_user_data) return false;
+    const refresh_token = generateRefreshToken(new_user_data);
     const user_key = await Key.create({
         key: refresh_token,
         user_id: new_user_data._id
@@ -38,6 +38,10 @@ async function loginUser(user_to_login) {
         user_id: user_data._id
     });
     if (!key) return false;
+   jwt.verify(key.key, process.env.REFRESH_TOKEN_SECRET, async (err, token_user_data) => {
+        if(err) return false;
+        if (user_data.password !== token_user_data.data.password) return false;
+    });
     const access_token = generateAccessToken({
         _id: user_data._id,
         username: user_data.username,
@@ -47,7 +51,7 @@ async function loginUser(user_to_login) {
 };
 
 // AUTHENTICATE TOKEN
-function authenticateToken(req, res, next) {
+function authenticateReqToken(req, res, next) {
     const authHeader = req.headers.authorization;
     const token = authHeader && authHeader.split(' ')[1];
     if (token == null) return res.sendStatus(401);
@@ -63,5 +67,5 @@ function authenticateToken(req, res, next) {
 }
 
 module.exports = {
-    loginUser, registerUser, authenticateToken
+    loginUser, registerUser, authenticateReqToken
 };

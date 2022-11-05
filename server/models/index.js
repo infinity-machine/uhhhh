@@ -1,7 +1,8 @@
 const Key = require('./Key');
-const User = require('./User');
-const Post = require('./Post');
+const { User, userSchema } = require('./User');
+const { Post, postSchema } = require('./Post');
+const Chat = require('./Chat');
 
 module.exports = {
-    Key, User, Post
+    Key, User, userSchema, Post, postSchema, Chat
 };

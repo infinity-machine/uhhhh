@@ -21,7 +21,8 @@ const userSchema = new Schema({
 });
 
 userSchema.pre('save', async function () {
-    const hashed_pass = await bcrypt.hash(this.password, 10);
+    const salt = await bcrypt.genSalt(10);
+    const hashed_pass = await bcrypt.hash(this.password, salt);
     this.password = hashed_pass;
 });
 
@@ -32,4 +33,6 @@ userSchema.methods.validatePass = async function(pass_to_check) {
 
 const User = model('User', userSchema);
 
-module.exports = User
+module.exports = {
+    User, userSchema
+}

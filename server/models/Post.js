@@ -17,4 +17,6 @@ const postSchema = new Schema({
 
 const Post = model('post', postSchema);
 
-module.exports = Post;
+module.exports = {
+    Post, postSchema
+};

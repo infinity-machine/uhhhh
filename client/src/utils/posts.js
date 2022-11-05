@@ -11,7 +11,6 @@ export async function fetchPosts() {
     return posts_array;
 }
 
-
 export async function savePost(post_content, username) {
     const new_post = {
         content: post_content,

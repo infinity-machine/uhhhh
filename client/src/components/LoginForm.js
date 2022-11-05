@@ -28,7 +28,6 @@ const LoginForm = () => {
         try {
             const token = await fetchAccessToken(user_to_login)
             localStorage.setItem('token', token);
-            console.log(token)
             window.location.reload();
         }
         catch(err) {
