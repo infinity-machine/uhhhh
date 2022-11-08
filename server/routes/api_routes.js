@@ -1,31 +1,39 @@
 const api_router = require('express').Router();
 
-const { User, Post } = require('../models');
+const { User, Post, Chat } = require('../models');
 const { authenticateReqToken } = require('../controllers');
 
-// GET ALL USERS
+// GET ALL LOGGED IN USERS
 api_router.get('/users', authenticateReqToken, async (req, res) => {
-    const users = await User.find()
-    res.json(users)
-})
+    const users = await User.find({
+        is_logged_in: true
+    });
+    res.json(users);
+});
 
-// GET YOUR USER WITH AUTH
-api_router.get('/user', authenticateReqToken, async (req, res) => {
-    const user_data = await User.findOne({
-        username: req.user.data.username,
-        email: req.user.data.email
-    })
-    res.json(user_data)
-})
 
 api_router.get('/posts', authenticateReqToken, async(req, res) => {
-    const posts = await Post.find()
-    res.json(posts)
-})
+    const posts = await Post.find();
+    res.json(posts);
+});
 
 api_router.post('/posts', authenticateReqToken, async(req, res) => {
-    const new_post = Post.create(req.body)
+    const new_post = await Post.create(req.body);
     res.json(new_post);
-})
+});
+
+api_router.post('/chats', authenticateReqToken, async(req, res) => {
+    console.log(req.body)
+    const receiving_user_data = await User.findOne({
+        username: req.body.receiver
+    });
+    console.log(receiving_user_data)
+    const new_chat = await Chat.create({
+        users: [
+            req.body.sender._id, receiving_user_data._id
+        ]
+    })
+    res.json(new_chat);
+});
 
 module.exports = api_router;

@@ -28,8 +28,10 @@ async function registerUser(user_to_register) {
 async function loginUser(user_to_login) {
     const { email, password } = user_to_login;
     if (!email && !password) return false;
-    const user_data = await User.findOne({
+    const user_data = await User.findOneAndUpdate({
         email: email
+    }, {
+        is_logged_in: true
     });
     if (!user_data) return false;
     const pass_is_valid = await user_data.validatePass(password);
@@ -50,6 +52,18 @@ async function loginUser(user_to_login) {
     return access_token;
 };
 
+async function logoutUser(user_to_logout) {
+    const user_logged_out = await User.findOneAndUpdate({
+        id: user_to_logout._id,
+        username: user_to_logout.username,
+        email: user_to_logout.email
+    }, {
+        is_logged_in: false
+    });
+    return user_logged_out
+}
+
+
 // AUTHENTICATE TOKEN
 function authenticateReqToken(req, res, next) {
     const authHeader = req.headers.authorization;
@@ -67,5 +81,5 @@ function authenticateReqToken(req, res, next) {
 }
 
 module.exports = {
-    loginUser, registerUser, authenticateReqToken
+    loginUser, logoutUser, registerUser, authenticateReqToken
 };

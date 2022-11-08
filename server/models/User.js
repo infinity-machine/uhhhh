@@ -14,6 +14,10 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    is_logged_in: {
+        type: Boolean,
+        default: true
+    },
     created: {
         type: Date,
         default: Date.now
@@ -31,7 +35,7 @@ userSchema.methods.validatePass = async function(pass_to_check) {
     return pass_is_valid;
 };
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = {
     User, userSchema

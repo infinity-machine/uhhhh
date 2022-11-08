@@ -2,7 +2,9 @@ import decode from 'jwt-decode';
 
 export function isAuthenticated() {
   const token = localStorage.getItem('token');
+  // ADD LOGOUT LOGIC HERE???
   if (!token) return false;
+  //
   const decoded = decode(token);
   if (decoded.exp > Date.now() / 1000) return decoded.data;
   return false;
@@ -13,7 +15,7 @@ export function returnDecodedToken(token) {
   return decoded.data
 }
 
-export async function fetchAccessToken(user) {
+export async function loginUser(user) {
   const response = await fetch('/auth/login', {
     method: 'POST',
     headers: {
@@ -46,5 +48,19 @@ export async function registerUser(user) {
   }
   if (response.status !== 200) {
     throw new Error('ACCOUNT CREATION FAILED')
+  }
+}
+
+export async function logoutUser(user) {
+  const response = await fetch('/auth/logout', {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user)
+  });
+  if (response.status !== 200) {
+    throw new Error('LOGOUT FAILED')
   }
 }
