@@ -1,14 +1,10 @@
 const { Schema, model } = require('mongoose');
-const postSchema = require('../models');
+const messageSchema = require('../models');
+const userSchema = require('../models');
 
 const chatSchema = new Schema({
-    users: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: "user"
-        }
-    ],
-    posts: [postSchema],
+    users: [userSchema],
+    message: [messageSchema],
     created: {
         type: Date,
         default: Date.now

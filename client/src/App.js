@@ -19,7 +19,6 @@ function App() {
     window.location.reload();
   };
 
-
   return (
     <div>
       {user.username ? (

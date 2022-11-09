@@ -3,7 +3,7 @@ import {useState, useEffect} from 'react';
 // import { newChat, sendMessage } from '../utils/chats';
 import {fetchChats} from '../utils/chats'
 
-const Chats = (props) => {
+const Chats = () => {
     const [chatData, setChatData] = useState('');
     // const [postContent, setPostContent] = useState('')
 
@@ -13,7 +13,8 @@ const Chats = (props) => {
     // }, [postsData])
 
     useEffect(() => {
-        fetchChats();
+        fetchChats()
+            .then(chats => console.log(chats))
     })
     // const handleInputChange = (e) => {
     //     setPostContent(e.target.value)
@@ -31,7 +32,7 @@ const Chats = (props) => {
                     chatData.map((data, index) => {
                         return (
                             <div key={index}>
-                                <p>do the rest of the shit</p>
+                                <p>{data}</p>
                             </div>
                         ) 
                     })

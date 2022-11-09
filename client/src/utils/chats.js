@@ -2,7 +2,7 @@ export async function newChat(recipient_id) {
     const chat_data = {
         receiver: recipient_id
     }
-    const response = await fetch('/api/chats', {
+    const response = await fetch('/chats', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -30,7 +30,7 @@ export async function fetchRecipientID(username) {
 }
 
 export async function fetchChats() {
-    const response = await fetch('./api/chats', {
+    const response = await fetch('/chats', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -39,7 +39,7 @@ export async function fetchChats() {
         }
     });
     const chats_array = await response.json();
-    console.log(chats_array)
+    return chats_array
 };
 
 export async function sendMessage(post_content, username) {
