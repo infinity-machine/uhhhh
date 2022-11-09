@@ -16,7 +16,7 @@ export async function newChat(recipient_username) {
     };
 };
 
-export async function fetchChats() {
+export async function fetchUserChatIds() {
     const response = await fetch('/chat', {
         method: 'GET',
         headers: {
@@ -40,23 +40,4 @@ export async function fetchChatData(chat_id) {
     });
     const chat_data = response.json()
     return chat_data
-}
-
-export async function sendMessage(post_content, username) {
-    const new_post = {
-        content: post_content,
-        author: username
-    }
-    const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'authorization': `Bearer ${localStorage.token}`
-        },
-        body: JSON.stringify(new_post)
-    });
-    if (response.status !== 200) {
-        throw new Error('POST CREATION FAILED');
-    }
 }
