@@ -11,29 +11,49 @@ api_router.get('/users', authenticateReqToken, async (req, res) => {
     res.json(users);
 });
 
+api_router.get('/user/:username', authenticateReqToken, async (req, res) => {
+    const user = await User.findOne({
+        username: req.params.username
+    });
+    res.json(user._id)
+})
 
-api_router.get('/posts', authenticateReqToken, async(req, res) => {
-    const posts = await Post.find();
-    res.json(posts);
-});
 
-api_router.post('/posts', authenticateReqToken, async(req, res) => {
-    const new_post = await Post.create(req.body);
-    res.json(new_post);
-});
+// api_router.get('/posts', authenticateReqToken, async(req, res) => {
+//     const posts = await Post.find();
+//     res.json(posts);
+// });
+
+// api_router.post('/posts', authenticateReqToken, async(req, res) => {
+//     const new_post = await Post.create(req.body);
+//     res.json(new_post);
+// });
+
+api_router.get('/chats', authenticateReqToken, async (req, res) => {
+    const user = await User.findOne({
+        _id: req.user.data._id
+    });
+    res.json(user.chats)
+})
 
 api_router.post('/chats', authenticateReqToken, async(req, res) => {
-    console.log(req.body)
-    const receiving_user_data = await User.findOne({
-        username: req.body.receiver
-    });
-    console.log(receiving_user_data)
     const new_chat = await Chat.create({
-        users: [
-            req.body.sender._id, receiving_user_data._id
-        ]
+        users: [req.user.data._id, req.body.receiver]
+    });
+    const sending_user = await User.findOneAndUpdate({
+        _id: req.user.data._id
+    }, {
+        $push: {
+            chats: new_chat._id
+        }
+    });
+    const receiving_user = await User.findOneAndUpdate({
+        _id: req.body.receiver
+    }, {
+        $push: {
+            chats: new_chat._id
+        }
     })
-    res.json(new_chat);
 });
 
 module.exports = api_router;

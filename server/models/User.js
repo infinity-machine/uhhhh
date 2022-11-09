@@ -1,4 +1,4 @@
-const { Schema, model} = require('mongoose');
+const { Schema, model } = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
@@ -14,6 +14,12 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
+    chats: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "chat"
+        }
+    ],
     is_logged_in: {
         type: Boolean,
         default: true
@@ -30,7 +36,7 @@ userSchema.pre('save', async function () {
     this.password = hashed_pass;
 });
 
-userSchema.methods.validatePass = async function(pass_to_check) {
+userSchema.methods.validatePass = async function (pass_to_check) {
     const pass_is_valid = await bcrypt.compare(pass_to_check, this.password);
     return pass_is_valid;
 };
