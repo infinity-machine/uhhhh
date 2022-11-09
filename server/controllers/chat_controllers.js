@@ -14,13 +14,6 @@ async function getChatData(chat_id) {
     return chat_data;
 }
 
-// async function getChatUsers(user_id) {
-//     const chat_users = await Chat.findOne({
-//         users: 
-//     });
-//     console.log(chat_users)
-// }
-
 module.exports = {
     createChat, getChatData
 }

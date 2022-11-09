@@ -1,7 +1,7 @@
 const chat_router = require('express').Router()
 const { User, Message, Chat } = require('../models');
 const { authenticateReqToken } = require('../controllers/auth_controllers');
-const { createChat, getChatData, getChatUsers } = require('../controllers/chat_controllers')
+const { createChat, getChatData } = require('../controllers/chat_controllers')
 const { userDataByUsername, userDataById, addChatToUser, getUserChats} = require('../controllers/user_controllers');
 
 chat_router.get('/', authenticateReqToken, async (req, res) => {

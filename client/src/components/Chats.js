@@ -5,17 +5,34 @@ import { fetchChats, fetchChatData } from '../utils/chats'
 
 const Chats = () => {
     const [chats, setChats] = useState([]);
+    const [chatSelectIndex, setChatSelectIndex] = useState('')
+    const [messageInput, setMessageInput] = useState('');
 
-    const renderChats = async(chat_id) => {
-        const chat_data = await fetchChatData(chat_id);
-        console.log(chat_data)
+    const renderChats = async (chat_id_array) => {
+        console.log(chat_id_array)
+        const chat_data_array = []
+        for (let i = 0; i < chat_id_array.length; i++) {
+            const chat_data = await fetchChatData(chat_id_array[i])
+            chat_data_array.push(chat_data)
+        }
+        setChats(chat_data_array)
+        console.log(chats)
     };
     useEffect(() => {
         fetchChats()
-            .then(chat_id => {
-                renderChats(chat_id)
+            .then(chat_id_array => {
+                console.log(chat_id_array)
+                renderChats(chat_id_array)
             })
     }, [])
+
+    const handleInputChange = (e) => {
+        setMessageInput(e.target.value)
+    }
+
+    const handleChatSelect = (e) => {
+        setChatSelectIndex(e.target.dataset.index)
+    }
 
     return (
         <div>
@@ -23,14 +40,27 @@ const Chats = () => {
                 chats ? (
                     chats.map((data, index) => {
                         return (
-                            <div key={index}>
-                                <p>{data}</p>
-                            </div>
+                            <p
+                                key={index}
+                                data-index={data._id}
+                                onClick={handleChatSelect}
+                            >{`conversation with ${data.users[1].username}`}</p>
                         )
                     })
                 ) : <p>NO CHATS STARTED YET</p>
             }
-        </div>
+            {
+                chatSelectIndex ? (
+                    chats.map((data, index) => {
+                        return (
+                            <div key={index}>
+                                <p>{data.message}</p>
+                            </div>
+                        )
+                    })
+                ) : <></>
+            }
+        </div >
 
     )
 }
