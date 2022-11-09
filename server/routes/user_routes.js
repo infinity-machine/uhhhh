@@ -1,20 +1,20 @@
 const user_router = require('express').Router();
 const { User, Message, Chat } = require('../models');
-const { authenticateReqToken } = require('../controllers');
+const { authenticateReqToken } = require('../controllers/auth_controllers');
+const { userDataByUsername } = require('../controllers/user_controllers');
 
 // GET ALL LOGGED IN USERS
-user_router.get('/users', authenticateReqToken, async (req, res) => {
+user_router.get('/', authenticateReqToken, async (req, res) => {
     const users = await User.find({
         is_logged_in: true
     });
     res.json(users);
 });
 
+// GET USER BY USERNAME
 user_router.get('/:username', authenticateReqToken, async (req, res) => {
-    const user = await User.findOne({
-        username: req.params.username
-    });
-    res.json(user._id)
+    const user_id = await userDataByUsername(req.params.username);
+    res.json(user_id)
 })
 
-module.exports(user_router);
+module.exports = user_router;

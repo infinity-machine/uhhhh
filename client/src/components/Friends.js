@@ -1,18 +1,18 @@
 import React from 'react'
-import { fetchUsers } from '../utils/users';
-import { fetchRecipientID, newChat } from '../utils/chats';
+import { fetchUsers, fetchUserId } from '../utils/users';
+import { newChat } from '../utils/chats';
 import {useState, useEffect} from 'react';
 
-const Friends = (props) => {
+const Friends = () => {
     const [onlineUsers, setOnlineUsers] = useState([])
 
     useEffect(() => {
         fetchUsers()
           .then(users => setOnlineUsers(users))
       })
+
       const handleNewChat = async(e) => {
-        const recipient_id = await fetchRecipientID(e.target.innerText);
-        newChat(recipient_id);
+        newChat(e.target.innerText);
       };
   return (
     <div>

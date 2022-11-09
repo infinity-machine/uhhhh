@@ -1,8 +1,8 @@
-export async function newChat(recipient_id) {
+export async function newChat(recipient_username) {
     const chat_data = {
-        receiver: recipient_id
+        receiver: recipient_username
     }
-    const response = await fetch('/chats', {
+    const response = await fetch('/chat', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -16,21 +16,8 @@ export async function newChat(recipient_id) {
     };
 };
 
-export async function fetchRecipientID(username) {
-    const response = await fetch(`/api/user/${username}`, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-            'authorization': `Bearer ${localStorage.token}`
-        }
-    });
-    const user_id = await response.json();
-    return user_id
-}
-
 export async function fetchChats() {
-    const response = await fetch('/chats', {
+    const response = await fetch('/chat', {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -41,6 +28,19 @@ export async function fetchChats() {
     const chats_array = await response.json();
     return chats_array
 };
+
+export async function fetchChatData(chat_id) {
+    const response = await fetch(`/chat/${chat_id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${localStorage.token}`
+        }
+    });
+    const chat_data = response.json()
+    return chat_data
+}
 
 export async function sendMessage(post_content, username) {
     const new_post = {
