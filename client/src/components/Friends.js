@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchUsers, fetchUserId } from '../utils/users';
+import { fetchUsers } from '../utils/users';
 import { newChat, fetchExistingChat } from '../utils/chats';
 import {useState, useEffect} from 'react';
 
@@ -13,10 +13,12 @@ const Friends = () => {
 
       const handleNewChat = async(e) => {
         const chat_exists = await fetchExistingChat(e.target.dataset.id);
-        if (chat_exists) return
-        if (!chat_exists) newChat(e.target.dataset.id)
+        if (chat_exists) return;
+        if (!chat_exists) newChat(e.target.dataset.id);
+        // FIND CLEANER WAY TO DO THIS
+        window.location.reload();
       };
-      
+
   return (
     <div className="border">
       <p>online users</p>

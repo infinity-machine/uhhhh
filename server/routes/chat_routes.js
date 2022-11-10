@@ -26,6 +26,7 @@ chat_router.get('/:chat_id', authenticateReqToken, async(req, res) => {
 });
 
 chat_router.post('/', authenticateReqToken, async(req, res) => {
+    console.log(req.body)
     const sender_id = req.user.data._id;
     const receiver_id = req.body.receiver;
     const new_chat = await createChat(sender_id, receiver_id);

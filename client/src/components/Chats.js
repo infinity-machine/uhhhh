@@ -53,7 +53,7 @@ const Chats = (props) => {
     }, []);
 
     return (
-        <div className="border">
+        <div>
             {
                 openChats ? (
                     openChats.map((data, index) => {
@@ -70,7 +70,7 @@ const Chats = (props) => {
             {
                 chatSelect ? (
                     <div>
-                        <div>
+                        <div className="border">
                             {
                                 chatMessages ? chatMessages.map((message, index) => {
                                     return (

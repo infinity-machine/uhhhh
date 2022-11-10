@@ -4,6 +4,7 @@ async function createChat(sender_id, receiver_id) {
     const new_chat = await Chat.create({
         users: [sender_id, receiver_id]
     });
+    if (!new_chat) return false;
     return new_chat
 }
 
