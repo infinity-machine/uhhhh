@@ -1,6 +1,23 @@
-export async function newChat(recipient_username) {
+export async function fetchExistingChat(recipient_id) {
+    const response = await fetch(`/chat/users/${recipient_id}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'authorization': `Bearer ${localStorage.token}`
+        }
+    });
+    const existing_chat = await response.json();
+    if (existing_chat) return true;
+    if (!existing_chat) return false;
+
+        
+    // if (response.status !== 200) throw new Error('CHAT ALREADY EXISTS')
+}
+
+export async function newChat(recipient_id) {
     const chat_data = {
-        receiver: recipient_username
+        receiver: recipient_id
     }
     const response = await fetch('/chat', {
         method: 'POST',

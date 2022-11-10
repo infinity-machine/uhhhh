@@ -21,9 +21,9 @@ async function userDataById(id) {
     return user_data
 }
 
-async function addChatToUser(user_to_update, chat_id) {
+async function addChatToUser(user_id, chat_id) {
     const updated_user_data = await User.findOneAndUpdate({
-        _id: user_to_update._id
+        _id: user_id
     }, {
         $push: {
             chats: chat_id

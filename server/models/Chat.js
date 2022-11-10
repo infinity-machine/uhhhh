@@ -3,7 +3,12 @@ const messageSchema = require('../models');
 const userSchema = require('../models');
 
 const chatSchema = new Schema({
-    users: [userSchema],
+    users: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "user"
+        }
+    ],
     message: [messageSchema],
     created: {
         type: Date,

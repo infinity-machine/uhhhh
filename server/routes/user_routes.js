@@ -3,9 +3,12 @@ const { User, Message, Chat } = require('../models');
 const { authenticateReqToken } = require('../controllers/auth_controllers');
 const { userDataByUsername } = require('../controllers/user_controllers');
 
-// GET ALL LOGGED IN USERS
+// GET ALL LOGGED IN USERS EXCEPT FOR YOU!!!
 user_router.get('/', authenticateReqToken, async (req, res) => {
     const users = await User.find({
+        _id: {
+            $ne: req.user.data._id
+        },
         is_logged_in: true
     });
     res.json(users);

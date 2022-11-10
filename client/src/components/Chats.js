@@ -8,6 +8,28 @@ const Chats = (props) => {
     const [chatSelect, setChatSelect] = useState('');
     const [messageInput, setMessageInput] = useState('');
     const [chatMessages, setChatMessages] = useState([]);
+    const [error, setError] = useState('');
+
+    const handleSendMessage = async(e) => {
+        e.preventDefault();
+        sendMessage(messageInput, props.user.username, chatSelect);
+        handleMessages(chatSelect);
+        setMessageInput('');
+    };
+
+    const handleCloseChat = () => {
+        setChatSelect(null)
+    }
+
+    const handleMessages = async(chat_id) => {
+        const messages = await fetchChatMessages(chat_id)
+        setChatMessages(messages)
+    }
+
+    const handleChatSelect = async (e) => {
+        setChatSelect(e.target.dataset.id);
+        handleMessages(e.target.dataset.id);
+    };
 
     const handleChatOutlines = async (chat_id_array) => {
         const chat_data_array = []
@@ -18,42 +40,20 @@ const Chats = (props) => {
         setOpenChats(chat_data_array)
     };
 
-    // useEffect(() => {
-    //     handleMessages(chatSelect)
-
-    // }, [newMessage])
-
-    useEffect(() => {
-        fetchUserChatIds()
-            .then(chat_id_array => {
-                handleChatOutlines(chat_id_array)
-            });
-    }, []);
-
     const handleInputChange = (e) => {
         setMessageInput(e.target.value);
     };
 
-    const handleMessages = async(chat_id) => {
-        const messages = await fetchChatMessages(chat_id)
-        setChatMessages(messages)
-    }
-
-    const handleChatSelect = async (e) => {
-        console.log(e.target.dataset.id)
-        setChatSelect(e.target.dataset.id)
-        handleMessages(e.target.dataset.id)
-    };
-
-    const handleSendMessage = async(e) => {
-        e.preventDefault();
-        sendMessage(messageInput, props.user.username, chatSelect)
-        handleMessages(chatSelect)
-        setMessageInput('')
-    };
+    useEffect(() => {
+        fetchUserChatIds()
+            .then(chat_id_array => {
+                if (!chat_id_array.length) return setOpenChats(null)
+                handleChatOutlines(chat_id_array)
+            });
+    }, []);
 
     return (
-        <div>
+        <div className="border">
             {
                 openChats ? (
                     openChats.map((data, index) => {
@@ -62,7 +62,7 @@ const Chats = (props) => {
                                 key={index}
                                 data-id={data._id}
                                 onClick={handleChatSelect}
-                            >{`conversation with ${data.users[1].username}`}</p>
+                            >{`${data._id}`}</p>
                         )
                     })
                 ) : <p>NO CHATS STARTED YET</p>
@@ -72,7 +72,7 @@ const Chats = (props) => {
                     <div>
                         <div>
                             {
-                                chatMessages ? chatMessages.slice().reverse().map((message, index) => {
+                                chatMessages ? chatMessages.map((message, index) => {
                                     return (
                                         <p key={index}>{message.content}</p>
                                     )
@@ -87,6 +87,7 @@ const Chats = (props) => {
                                     type="text"></input>
                                 <button>SEND</button>
                             </form>
+                            <button onClick={handleCloseChat}>CLOSE</button>
                         </div>
                     </div>
                 ) : <></>

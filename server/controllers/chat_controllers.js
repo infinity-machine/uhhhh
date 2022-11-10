@@ -1,8 +1,8 @@
 const { Chat, User } = require('../models');
 
-async function createChat(sending_user, receiving_user) {
+async function createChat(sender_id, receiver_id) {
     const new_chat = await Chat.create({
-        users: [sending_user, receiving_user]
+        users: [sender_id, receiver_id]
     });
     return new_chat
 }

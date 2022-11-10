@@ -1,6 +1,6 @@
 import React from 'react'
 import { fetchUsers, fetchUserId } from '../utils/users';
-import { newChat } from '../utils/chats';
+import { newChat, fetchExistingChat } from '../utils/chats';
 import {useState, useEffect} from 'react';
 
 const Friends = () => {
@@ -12,14 +12,19 @@ const Friends = () => {
       })
 
       const handleNewChat = async(e) => {
-        newChat(e.target.innerText);
+        const chat_exists = await fetchExistingChat(e.target.dataset.id);
+        if (chat_exists) return
+        if (!chat_exists) newChat(e.target.dataset.id)
       };
+      
   return (
-    <div>
+    <div className="border">
+      <p>online users</p>
         {onlineUsers ? onlineUsers.map((data, index) => {
               return (
                 <div key={index}>
-                  <p onClick={handleNewChat}>{data.username}</p>
+                  <p onClick={handleNewChat}
+                  data-id={data._id}>{data.username}</p>
                 </div>
               )
             }) : <></>}
