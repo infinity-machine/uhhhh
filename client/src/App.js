@@ -2,6 +2,7 @@ import React from 'react';
 import LoginForm from './components/LoginForm';
 import Friends from './components/Friends';
 import Chats from './components/Chats'
+import Messaging from './components/Messaging';
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { isAuthenticated, logoutUser } from './utils/auth';
@@ -20,16 +21,17 @@ function App() {
   };
 
   return (
-    <div>
+    <div class="margincenter">
       {user.username ? (
         <div>
-          <div>
+          <div class="container twocolumns">
             <p>Welcome {user.username}!</p>
             <button onClick={handleLogOut}>LOG OUT</button>
           </div>
           <div>
-            <Friends user={user}/>
-            < Chats user={user}/>
+            {/* <Friends user={user}/>
+            < Chats user={user}/> */}
+            < Messaging user={user}/>
           </div>
         </div>
       ) : (
