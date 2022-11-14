@@ -7,13 +7,6 @@ async function getLoggedInUsers() {
     return logged_in_users
 }
 
-async function userDataByUsername(username) {
-    const user_data = await User.findOne({
-        username: username
-    });
-    return user_data;
-};
-
 async function userDataById(id) {
     const user_data = await User.findOne({
         _id: id
@@ -41,5 +34,5 @@ async function getUserChats(user_id) {
 }
 
 module.exports = {
-    getLoggedInUsers, userDataByUsername, userDataById, addChatToUser, getUserChats
+    getLoggedInUsers, userDataById, addChatToUser, getUserChats
 }

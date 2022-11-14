@@ -21,10 +21,10 @@ function App() {
   };
 
   return (
-    <div class="margincenter">
+    <div className="margincenter">
       {user.username ? (
         <div>
-          <div class="container twocolumns">
+          <div className="container twocolumns">
             <p>Welcome {user.username}!</p>
             <button onClick={handleLogOut}>LOG OUT</button>
           </div>

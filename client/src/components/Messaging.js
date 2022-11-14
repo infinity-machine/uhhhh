@@ -2,7 +2,7 @@ import React from 'react'
 import { useState, useEffect } from 'react';
 import { fetchUserChatIds, fetchChatData } from '../utils/chats';
 import { sendMessage, fetchChatMessages } from '../utils/messages';
-import { fetchUsers } from '../utils/users';
+import { fetchUsers, fetchUserById } from '../utils/users';
 import { newChat, fetchExistingChat } from '../utils/chats';
 import '../index.css';
 
@@ -44,7 +44,10 @@ const Messaging = (props) => {
         const chat_data_array = []
         for (let i = 0; i < chat_id_array.length; i++) {
             const chat_data = await fetchChatData(chat_id_array[i])
+            const chat_partner_data = await fetchUserById(chat_data.users.filter(user => user !== props.user._id));
+            chat_data.title = `conversation with ${chat_partner_data.username}`;
             chat_data_array.push(chat_data)
+            console.log(chat_data_array)
         }
         setOpenChats(chat_data_array)
     };
@@ -96,7 +99,7 @@ const Messaging = (props) => {
                                     key={index}
                                     data-id={data._id}
                                     onClick={handleChatSelect}
-                                >{`${data._id}`}</p>
+                                >{`${data.title}`}</p>
                             )
                         })
                     ) : <p>NO CHATS STARTED YET</p>

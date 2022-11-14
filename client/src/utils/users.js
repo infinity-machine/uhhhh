@@ -11,8 +11,9 @@ export async function fetchUsers() {
     return users_array
 }
 
-export async function fetchUserId(username) {
-    const response = await fetch(`/users/${username}`, {
+
+export async function fetchUserById(user_id) {
+    const response = await fetch(`/users/${user_id}`, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -21,6 +22,5 @@ export async function fetchUserId(username) {
         }
     });
     const user = await response.json();
-    return user._id
-    // return user_id
+    return user
 }

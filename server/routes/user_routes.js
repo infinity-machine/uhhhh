@@ -1,7 +1,7 @@
 const user_router = require('express').Router();
 const { User, Message, Chat } = require('../models');
 const { authenticateReqToken } = require('../controllers/auth_controllers');
-const { userDataByUsername } = require('../controllers/user_controllers');
+const { userDataById } = require('../controllers/user_controllers');
 
 // GET ALL LOGGED IN USERS EXCEPT FOR YOU!!!
 user_router.get('/', authenticateReqToken, async (req, res) => {
@@ -14,9 +14,9 @@ user_router.get('/', authenticateReqToken, async (req, res) => {
     res.json(users);
 });
 
-// GET USER BY USERNAME
-user_router.get('/:username', authenticateReqToken, async (req, res) => {
-    const user_id = await userDataByUsername(req.params.username);
+// GET USER BY ID
+user_router.get('/:user_id', authenticateReqToken, async (req, res) => {
+    const user_id = await userDataById(req.params.user_id);
     res.json(user_id)
 })
 
