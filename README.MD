@@ -5,8 +5,8 @@ This is a chat application, allowing you to open new chats and send messages bac
 HTML, JS, CSS, NodeJS, MongoDB
 
 ## DEPLOYMENT
-[HEROKU]('https://inf-mac-chat-app.herokuapp.com/')
+[HEROKU](https://inf-mac-chat-app.herokuapp.com/)
 
 ## CONTACT
 Connor Carciofini - Developer  
-[GITHUB]('https://github.com/infinity-machine')
+[GITHUB](https://github.com/infinity-machine)
