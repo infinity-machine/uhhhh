@@ -45,7 +45,7 @@ const Messaging = (props) => {
         for (let i = 0; i < chat_id_array.length; i++) {
             const chat_data = await fetchChatData(chat_id_array[i])
             const chat_partner_data = await fetchUserById(chat_data.users.filter(user => user !== props.user._id));
-            chat_data.title = `conversation with ${chat_partner_data.username}`;
+            chat_data.title = `chat with ${chat_partner_data.username}`;
             chat_data_array.push(chat_data)
             console.log(chat_data_array)
         }
@@ -78,32 +78,34 @@ const Messaging = (props) => {
     };
     return (
         <div>
-            <div className="border centertext">
-                <p>online users</p>
-                {onlineUsers ? onlineUsers.map((data, index) => {
-                    return (
-                        <div key={index}>
-                            <p onClick={handleNewChat}
-                                data-id={data._id}>{data.username}</p>
-                        </div>
-                    )
-                }) : <></>}
-            </div>
-            <div className="centertext">
-                <p>open chats</p>
-                {
-                    openChats ? (
-                        openChats.map((data, index) => {
-                            return (
-                                <p
-                                    key={index}
-                                    data-id={data._id}
-                                    onClick={handleChatSelect}
-                                >{`${data.title}`}</p>
-                            )
-                        })
-                    ) : <p>NO CHATS STARTED YET</p>
-                }
+            <div className="container twocolumns">
+                <div className="border centertext">
+                    <p>online users</p>
+                    {onlineUsers ? onlineUsers.map((data, index) => {
+                        return (
+                            <div key={index}>
+                                <p onClick={handleNewChat}
+                                    data-id={data._id}>{data.username}</p>
+                            </div>
+                        )
+                    }) : <p>NO USERS ONLINE</p>}
+                </div>
+                <div className="centertext">
+                    <p>open chats</p>
+                    {
+                        openChats ? (
+                            openChats.map((data, index) => {
+                                return (
+                                    <p
+                                        key={index}
+                                        data-id={data._id}
+                                        onClick={handleChatSelect}
+                                    >{`${data.title}`}</p>
+                                )
+                            })
+                        ) : <p>NO CHATS STARTED YET</p>
+                    }
+                </div>
             </div>
             <div>
                 {
